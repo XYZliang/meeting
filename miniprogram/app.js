@@ -9,7 +9,7 @@ App({
   time: time,
   meetings: meetings,
   onLaunch: function (options) {
-    if (wx.getUpdateManager){
+    if (wx.getUpdateManager) {
       const updateManager = wx.getUpdateManager()
       updateManager.onUpdateReady(function (e) {
         updateManager.applyUpdate()
@@ -18,11 +18,10 @@ App({
     // 获取用户信息
     this.userInfo()
   },
-  onShow: function(options){
+  onShow: function (options) {
     request.reconnectApiViews(5)
   },
-  onHide: function (options) {
-  },
+  onHide: function (options) {},
   globalData: {
     config: null,
     userInfo: null,
@@ -32,12 +31,12 @@ App({
     loginPromise: [],
     timeDifference: 0,
   },
-  nowDate: function(){
+  nowDate: function () {
     return new Date(new Date().getTime() + this.globalData.timeDifference)
   },
-  config: function(){
+  config: function () {
     return new Promise((resolve, reject) => {
-      if (this.globalData.config != null){
+      if (this.globalData.config != null) {
         resolve(this.globalData.config)
         return
       }
@@ -62,7 +61,7 @@ App({
           let pro = this.globalData.getUserInfoPromise.pop()
           pro[index](info);
         }
-        if (index == 0 && info.need_refresh){
+        if (index == 0 && info.need_refresh) {
           this.getUserInfo()
         }
       }
@@ -71,13 +70,13 @@ App({
         return
       }
       api.api_wechat_user_info().then(data => {
-        if (!data.avatarurl){
+        if (!data.avatarurl) {
           this.getUserInfo().then(res => {
             callback(0, res)
           }).catch(res => {
             callback(1, res)
           })
-        }else{
+        } else {
           this.globalData.userInfo = data
           callback(0, this.globalData.userInfo)
         }
@@ -107,9 +106,12 @@ App({
       })
     })
   },
-  updateUserInfo: function (encryptedData, iv){
+  updateUserInfo: function (encryptedData, iv) {
     return new Promise((resolve, reject) => {
-      api.api_wechat_user_info({ encrypted_data: encryptedData, iv: iv }).then(data => {
+      api.api_wechat_user_info({
+        encrypted_data: encryptedData,
+        iv: iv
+      }).then(data => {
         this.globalData.userInfo = data
         resolve(this.globalData.userInfo)
       }).catch(msg => {
@@ -122,8 +124,10 @@ App({
   onGetPhoneNumber: function (e) {
     if (e.detail.errMsg == 'getPhoneNumber:ok') {
       return this.updateUserInfo(e.detail.encryptedData, e.detail.iv)
-    }else{
-      return new Promise((resolve, reject) => { reject("获取失败") });
+    } else {
+      return new Promise((resolve, reject) => {
+        reject("获取失败")
+      });
     }
   },
 
@@ -131,15 +135,17 @@ App({
     if (e.detail.errMsg == 'getUserInfo:ok') {
       return this.updateUserInfo(e.detail.encryptedData, e.detail.iv)
     } else {
-      return new Promise((resolve, reject) => { reject("获取失败") });
+      return new Promise((resolve, reject) => {
+        reject("获取失败")
+      });
     }
   },
-  gotoHome: function(){
+  gotoHome: function () {
     wx.reLaunch({
       url: '/pages/room/list',
     })
   },
-  login: function() {
+  login: function () {
     return new Promise((resolve, reject) => {
       this.globalData.loginPromise.push([resolve, reject])
       if (this.globalData.logining) {
@@ -155,7 +161,9 @@ App({
       }
       wx.login({
         success: res => {
-          api.api_wechat_login({js_code: res.code}).then(data => {
+          api.api_wechat_login({
+            js_code: res.code
+          }).then(data => {
             callback(0, data)
           })
           // 发送 res.code 到后台换取 openId, sessionKey, unionId

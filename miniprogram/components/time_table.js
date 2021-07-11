@@ -1,3 +1,11 @@
+/*
+ * @Author: your name
+ * @Date: 2020-11-20 16:27:42
+ * @LastEditTime: 2021-03-16 23:20:45
+ * @LastEditors: your name
+ * @Description: In User Settings Edit
+ * @FilePath: /miniprogram/components/time_table.js
+ */
 // components/time_table.js
 Component({
   /**
@@ -20,7 +28,11 @@ Component({
    * 组件的方法列表
    */
   methods: {
-    set_data: function({titles, labels, td_data} = {}){
+    set_data: function ({
+      titles,
+      labels,
+      td_data
+    } = {}) {
       let data = {}
       if (titles !== undefined) {
         data['titles'] = titles
@@ -31,13 +43,13 @@ Component({
       if (td_data !== undefined) {
         data['td_data'] = td_data
       }
-      
+
       this.setData(data)
     },
-    event: function(event, data = {}){
+    event: function (event, data = {}) {
       this.triggerEvent(event, data, {})
     },
-    title_label_click: function(e){
+    title_label_click: function (e) {
       this.event('title_label_click')
     },
     title_click: function (e) {
@@ -50,7 +62,7 @@ Component({
         label_id: e.currentTarget.id
       })
     },
-    data_click: function(e){
+    data_click: function (e) {
       this.event('data_click', {
         title_id: e.currentTarget.dataset.title,
         label_id: e.currentTarget.dataset.label,

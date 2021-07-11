@@ -5,6 +5,6 @@ from cool.core import Constants
 
 
 class GenderCode(Constants):
-    UNKNOWN = (0, '未知')
+    UNKOWN = (0, '未知')
     MALE = (1, '男')
     FEMALE = (2, '女')

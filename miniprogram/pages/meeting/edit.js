@@ -22,12 +22,16 @@ Page({
   },
   onGetUserInfo: function (e) {
     app.onGetUserInfo(e).then(res => {
-      this.setData({ user_info: res })
+      this.setData({
+        user_info: res
+      })
     })
   },
-  refresh: function(){
-    if(this.data.meeting_id > 0){
-      app.api.api_meeting_info({meeting_id: this.data.meeting_id}).then(res => {
+  refresh: function () {
+    if (this.data.meeting_id > 0) {
+      app.api.api_meeting_info({
+        meeting_id: this.data.meeting_id
+      }).then(res => {
         this.setData({
           date: res.date,
           start_time: res.start_time,
@@ -37,41 +41,38 @@ Page({
           description: res.description
         })
       })
-    }else{
-      app.api.api_meeting_room_info({ room_id: this.data.room_id }).then(res => {
-        this.setData({ room: res })
+    } else {
+      app.api.api_meeting_room_info({
+        room_id: this.data.room_id
+      }).then(res => {
+        this.setData({
+          room: res
+        })
       })
     }
   },
   save: function () {
-    if(!this.data.name.trim()){
-      wx.showToast({
-        icon: 'none',
-        title: '请输入名称',
-      })
-      return
-    }
     wx.showLoading({
       mask: true,
       title: '加载中...',
     })
     if (this.data.meeting_id <= 0) {
       app.api.api_meeting_reserve({
-        room_id: this.data.room_id, 
-        name: this.data.name, 
-        description: this.data.description, 
-        date: this.data.date, 
-        start_time: this.data.start_time, 
+        room_id: this.data.room_id,
+        name: this.data.name,
+        description: this.data.description,
+        date: this.data.date,
+        start_time: this.data.start_time,
         end_time: this.data.end_time
       }).then(res => {
         wx.hideLoading()
         wx.redirectTo({
-          url: "detail?meeting_id="+res.id
+          url: "detail?meeting_id=" + res.id
         })
       }).catch(res => {
         wx.hideLoading()
       })
-    }else{
+    } else {
       app.api.api_meeting_edit({
         meeting_id: this.data.meeting_id,
         name: this.data.name,
@@ -89,23 +90,27 @@ Page({
    */
   onLoad: function (options) {
     app.userInfo().then(res => {
-      this.setData({ user_info: res })
+      this.setData({
+        user_info: res
+      })
     })
     let meeting_id = options.meeting_id
-    if(meeting_id){
-      this.setData({meeting_id: parseInt(meeting_id)})
+    if (meeting_id) {
+      this.setData({
+        meeting_id: parseInt(meeting_id)
+      })
       return
     }
     let room_id = options.room_id
-    if (room_id){
+    if (room_id) {
       room_id = parseInt(room_id)
-    }else{
+    } else {
       room_id = 0
     }
     let start_time = options.start_time
     let end_time = options.end_time
     let date = options.date
-    if (room_id <= 0 || !start_time || !end_time || !date){
+    if (room_id <= 0 || !start_time || !end_time || !date) {
       wx.showToast({
         title: '参数错误',
         icon: 'none'
@@ -114,7 +119,12 @@ Page({
       return
     }
 
-    this.setData({ room_id: room_id, start_time: start_time, end_time: end_time, date: date })
+    this.setData({
+      room_id: room_id,
+      start_time: start_time,
+      end_time: end_time,
+      date: date
+    })
     return
   },
 

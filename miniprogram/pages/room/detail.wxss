@@ -1,7 +1,13 @@
 /* pages/room/detail.wxss */
-.meeting-item{
+.meeting-item {
   margin-top: 20rpx
 }
-.qr_code{
+
+.qr_code {
   width: 100%
+}
+
+.No_appointment {
+  margin-top: 20rpx;
+  text-align: center;
 }

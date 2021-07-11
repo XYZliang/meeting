@@ -1,4 +1,3 @@
-
 "use strict";
 const USE_WEBSOCKET = true
 const httpCookie = require('./http-cookie.js')
@@ -6,26 +5,28 @@ const ApiViewWS = require('./apiviewws.js')
 let app = getApp()
 let apiViewWSs = {}
 const reconnectApiViews = (check_time) => {
-  if(!USE_WEBSOCKET){
+  if (!USE_WEBSOCKET) {
     return
   }
-  for(let i in apiViewWSs){
+  for (let i in apiViewWSs) {
     apiViewWSs[i].check_and_reconnect(check_time)
   }
 }
+
 const getApiViewWS = (server, need_connect) => {
   const ws_path = "ws" + server.substring(4) + "/wsapi"
   return new Promise((resolve, reject) => {
     if (!apiViewWSs.hasOwnProperty(ws_path)) {
       apiViewWSs[ws_path] = new ApiViewWS(ws_path)
     }
-    if (!need_connect){
+    if (!need_connect) {
       resolve(apiViewWSs[ws_path])
       return
     }
     apiViewWSs[ws_path].connect().then(res => {
       resolve(apiViewWSs[ws_path])
     }).catch(res => {
+      console.log("ws error", res)
       reject(res)
     })
   })
@@ -63,48 +64,56 @@ const ws_request = function (server, path, data, method, header, resolve, reject
     wx_request(server, path, data, method, header, resolve, reject, check_login)
   })
 }
-const wx_request = function (server, path, data, method, header, resolve, reject, check_login){
+const wx_request = function (server, path, data, method, header, resolve, reject, check_login) {
   const url = server + path
   header['Cookie'] = httpCookie.getCookieForReq()
   const reqid = "req_" + parseInt(Math.random() * 9000000000 + 1000000000)
+  console.log("req send", reqid, path)
   wx.request({
     url: url,
     data: data,
     method: method,
     header: header,
     success(res) {
+      console.log("req success", reqid, res.statusCode, res.data.code)
       httpCookie.setCookieByHead(res.header)
-      if(app === undefined){
+      if (app === undefined) {
         app = getApp()
       }
       let server_time = new Date(res.header["Date"])
-      if (!isNaN(server_time)){
+      if (!isNaN(server_time)) {
         app.globalData.timeDifference = server_time.getTime() - new Date().getTime()
       }
-      if(USE_WEBSOCKET){
+      if (USE_WEBSOCKET) {
         getApiViewWS(server, false).then(conn => {
           conn.reconnect()
           check_res(res, server, path, data, method, header, resolve, reject, check_login)
         }).catch(res => {
           check_res(res, server, path, data, method, header, resolve, reject, check_login)
         })
-      }else{
+      } else {
         check_res(res, server, path, data, method, header, resolve, reject, check_login)
       }
     },
     fail(res) {
+      console.log("req fail", reqid, path, res)
       reject("网络错误")
     },
-    complete() {
-    }
+    complete() {}
   })
 }
-const req = function (server, path, data, method, header, resolve, reject, check_login){
+const req = function (server, path, data, method, header, resolve, reject, check_login) {
   return ws_request(server, path, data, method, header, resolve, reject, check_login)
 }
-const request = function({server, path, data, method, header} = {}){
+const request = function ({
+  server,
+  path,
+  data,
+  method,
+  header
+} = {}) {
   for (let key in data) {
-    if(data[key] === undefined){
+    if (data[key] === undefined) {
       delete data[key]
     }
   }

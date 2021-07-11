@@ -1,7 +1,10 @@
 /* components/time_table.wxss */
-.time_table{
+
+
+.time_table {
   height: 100%;
 }
+
 .table {
   position: relative;
   overflow: hidden;
@@ -12,31 +15,37 @@
   border-right: 1rpx solid #ddd;
   border-bottom: 1rpx solid #ddd;
 }
-.table .thead{
+
+.table .thead {
   height: 48rpx;
 }
-.table .tbody{
+
+.table .tbody {
   position: absolute;
   top: 49rpx;
   bottom: 0;
   width: 100%;
   overflow: auto;
 }
-.table .tr{
-  display:-webkit-box;
-  display:-webkit-flex;
-  display:flex;
+
+.table .tr {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
 }
-.table .th, .table .td{
-  -webkit-box-flex:1;
-  -webkit-flex:1;
-  flex:1;
+
+.table .th,
+.table .td {
+  -webkit-box-flex: 1;
+  -webkit-flex: 1;
+  flex: 1;
   text-align: center;
   vertical-align: middle;
   overflow: hidden;
-  margin-right:-1rpx;
-  margin-bottom:-1rpx;
+  margin-right: -1rpx;
+  margin-bottom: -1rpx;
 }
+
 .table .th {
   font-weight: bold;
   border: 1rpx solid #ddd;
@@ -50,31 +59,38 @@
   border-right: 1rpx solid #ddd;
   height: 36rpx;
 }
-.table .td.expire{
+
+.table .td.expire {
   border-top: 1rpx solid #f5f5f5;
   background-color: #f5f5f5;
 }
-.table .td.in_use{
+
+.table .td.in_use {
   border-top: 1rpx solid #fcf8e3;
   background-color: #fcf8e3;
 }
-.table .td.selected{
+
+.table .td.selected {
   border-top: 1rpx solid #dfffd8;
   background-color: #dfffd8;
 }
-.table .td.top{
+
+.table .td.top {
   border-top: 1rpx solid #ddd;
 }
-.table .td.bottom{
+
+.table .td.bottom {
   border-bottom: 1rpx solid #ddd;
 }
-.label_item{
+
+.label_item {
   font-size: 28rpx;
 }
-view.label{
-  -webkit-box-flex:none!important;
-  -webkit-flex:none!important;
-  flex:none!important;
+
+view.label {
+  -webkit-box-flex: none !important;
+  -webkit-flex: none !important;
+  flex: none !important;
   width: 100rpx;
   background-color: #f5fafe;
   float: left;

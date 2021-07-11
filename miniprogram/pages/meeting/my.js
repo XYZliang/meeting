@@ -14,19 +14,24 @@ Page({
     this.data.td_data = app.meetings.getTdData(
       this.data.rooms,
       this.data.meetings,
-      this.data.time_range,
-      { selected: false },
+      this.data.time_range, {
+        selected: false
+      },
       this.selectComponent("#date_select").data.select_date
     )
     this.selectComponent("#time_table").set_data({
-      titles: this.data.rooms, labels: this.data.time_range, td_data: this.data.td_data
+      titles: this.data.rooms,
+      labels: this.data.time_range,
+      td_data: this.data.td_data
     })
-    if(this.data.loading){
-      this.setData({ loading: false})
+    if (this.data.loading) {
+      this.setData({
+        loading: false
+      })
     }
   },
-  data_click: function(e){
-    if (!e.detail.data_id){
+  data_click: function (e) {
+    if (!e.detail.data_id) {
       return
     }
     wx.navigateTo({
@@ -43,10 +48,14 @@ Page({
       const start_time = app.time.parseTime(res.start_time).value()
       const end_time = app.time.parseTime(res.end_time).value()
       let time_range = []
-      for (let time = start_time; time <= end_time; time += 1800) {
+      for (let time = start_time; time <= end_time; time += 600) {
         const t = app.time.valueToTime(time)
         const id = t.string(2)
-        time_range.push({ id: id, text: t.minute == 0 ? id : "", data: t })
+        time_range.push({
+          id: id,
+          text: t.minute == 0 ? id : "",
+          data: t
+        })
       }
       this.data.meetings = res.meetings
       this.data.rooms = res.rooms

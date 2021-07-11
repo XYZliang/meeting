@@ -40,22 +40,36 @@ const get_str_list = (str_arr, count) => {
 }
 const get_meeting_data = (room_id, time, meetings) => {
   const time_value = time.value()
-  const filter_meetings = meetings.filter(m => { return m.room.toString() == room_id.toString() })
+  const filter_meetings = meetings.filter(m => {
+    return m.room.toString() == room_id.toString()
+  })
   for (let i in filter_meetings) {
     let meeting = filter_meetings[i]
     const start_time = getApp().time.parseTime(meeting.start_time).value()
     const end_time = getApp().time.parseTime(meeting.end_time).value()
-    let status = check_status(start_time, end_time - 30 * 60, time_value)
+    let status = check_status(start_time, end_time - 10 * 60, time_value)
+    let isshow = 0
     if (status != 0) {
-      let count = Math.round((end_time - start_time) / 30 / 60)
-      let str_list = get_str_list(meeting.name.split(""), count)
-      //let str_list = meeting.name_list
-      let pos = Math.round((time_value - start_time) / 30 / 60)
-      return { status: status, text: str_list[pos], id: meeting.id }
+      let count = 1
+      let str_list = ""
+      if (isshow == 0) {
+        str_list = get_str_list(meeting.name.split(""), count)
+        isshow = 1
+      }
+      let pos = Math.round((time_value - start_time) / 10 / 60)
+      return {
+        status: status,
+        text: str_list[pos],
+        id: meeting.id
+      }
 
     }
   }
-  return { status: 0, text: '', id: null }
+  return {
+    status: 0,
+    text: '',
+    id: null
+  }
 }
 const getTdData = (rooms, meetings, time_range, select, select_date) => {
   let td_data = {}

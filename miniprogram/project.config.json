@@ -5,16 +5,44 @@
 	},
 	"setting": {
 		"urlCheck": false,
-		"es6": true,
+		"es6": false,
+		"enhance": true,
 		"postcss": true,
-		"minified": true,
-		"newFeature": true,
-		"autoAudits": false,
-		"checkInvalidKey": true
+		"preloadBackgroundData": false,
+		"minified": false,
+		"newFeature": false,
+		"coverView": true,
+		"nodeModules": false,
+		"autoAudits": true,
+		"showShadowRootInWxmlPanel": true,
+		"scopeDataCheck": false,
+		"uglifyFileName": false,
+		"checkInvalidKey": true,
+		"checkSiteMap": true,
+		"uploadWithSourceMap": true,
+		"compileHotReLoad": true,
+		"useMultiFrameRuntime": true,
+		"useApiHook": true,
+		"useApiHostProcess": true,
+		"babelSetting": {
+			"ignore": [],
+			"disablePlugins": [],
+			"outputPath": ""
+		},
+		"bundle": false,
+		"useIsolateContext": true,
+		"useCompilerModule": true,
+		"userConfirmedUseCompilerModuleSwitch": false,
+		"userConfirmedBundleSwitch": false,
+		"packNpmManually": false,
+		"packNpmRelationList": [],
+		"minifyWXSS": true,
+		"remoteDebugLogEnable": false,
+		"prefetch": true
 	},
 	"compileType": "miniprogram",
-	"libVersion": "2.10.0",
-	"appid": "wx97a75cb90bcaaedc",
+	"libVersion": "2.12.0",
+	"appid": "wx4bd0bce653ce9a2a",
 	"projectname": "meeting",
 	"debugOptions": {
 		"hidedInDevtools": []
@@ -22,13 +50,17 @@
 	"isGameTourist": false,
 	"simulatorType": "wechat",
 	"simulatorPluginLibVersion": {},
+	"qqappid": "1111594470",
+	"scripts": {
+		"beforeCompile": "",
+		"beforePreview": "",
+		"beforeUpload": ""
+	},
 	"condition": {
 		"search": {
-			"current": -1,
 			"list": []
 		},
 		"conversation": {
-			"current": -1,
 			"list": []
 		},
 		"game": {
@@ -36,7 +68,6 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": -1,
 			"list": []
 		}
 	}

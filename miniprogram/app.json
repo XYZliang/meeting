@@ -6,8 +6,7 @@
     "pages/meeting/reserve",
     "pages/meeting/detail",
     "pages/meeting/edit",
-    "pages/meeting/my",
-    "pages/room/history"
+    "pages/meeting/my"
   ],
   "window": {
     "backgroundTextStyle": "light",

@@ -1,0 +1,61 @@
+
+发送请求
+连接失败，重试
+发送请求
+连接失败，尝试重启
+开始重启
+尝试获取端口
+端口获取成功tcp      129      0 0.0.0.0:8000            0.0.0.0:*               LISTEN      1541/python3        
+tcp        0      0 10.9.185.1:37168        117.50.23.70:8000       ESTABLISHED 13000/python3       
+tcp        0      0 10.9.185.1:37494        117.50.23.70:8000       ESTABLISHED 21141/python3       
+tcp        0      0 10.9.185.1:37208        117.50.23.70:8000       ESTABLISHED 14135/python3       
+tcp        0      0 10.9.185.1:37442        117.50.23.70:8000       ESTABLISHED 19841/python3       
+tcp        0      0 10.9.185.1:37364        117.50.23.70:8000       ESTABLISHED 17907/python3       
+tcp        0      0 10.9.185.1:37480        117.50.23.70:8000       ESTABLISHED 20855/python3       
+tcp        0      0 10.9.185.1:37350        117.50.23.70:8000       ESTABLISHED 17599/python3       
+tcp        0      0 10.9.185.1:8000         171.34.140.19:53187     ESTABLISHED 1541/python3        
+tcp        0      0 10.9.185.1:37324        117.50.23.70:8000       ESTABLISHED 16988/python3       
+tcp        0      0 10.9.185.1:37130        117.50.23.70:8000       ESTABLISHED 11823/python3       
+tcp        0      0 10.9.185.1:37220        117.50.23.70:8000       ESTABLISHED 14504/python3       
+tcp        0      0 10.9.185.1:37506        117.50.23.70:8000       ESTABLISHED 21505/python3       
+tcp        0      0 10.9.185.1:37142        117.50.23.70:8000       ESTABLISHED 12240/python3       
+tcp        0      0 10.9.185.1:37156        117.50.23.70:8000       ESTABLISHED 12589/python3       
+tcp        0      0 10.9.185.1:37402        117.50.23.70:8000       ESTABLISHED 18873/python3       
+tcp        0      0 10.9.185.1:37416        117.50.23.70:8000       ESTABLISHED 19159/python3       
+tcp        0      0 10.9.185.1:37286        117.50.23.70:8000       ESTABLISHED 16039/python3       
+tcp        0      0 10.9.185.1:37312        117.50.23.70:8000       ESTABLISHED 16647/python3       
+tcp        0      0 10.9.185.1:37454        117.50.23.70:8000       ESTABLISHED 20202/python3       
+tcp        0      0 10.9.185.1:37194        117.50.23.70:8000       ESTABLISHED 13755/python3       
+tcp        0      0 10.9.185.1:37104        117.50.23.70:8000       ESTABLISHED 11027/python3       
+tcp        0      0 10.9.185.1:37428        117.50.23.70:8000       ESTABLISHED 19513/python3       
+tcp        0      0 10.9.185.1:37260        117.50.23.70:8000       ESTABLISHED 15375/python3       
+
+sudo kill -9 1541
+执行杀掉
+sudo kill -9 13000
+执行杀掉
+sudo kill -9 21141
+执行杀掉
+sudo kill -9 14135
+执行杀掉
+sudo kill -9 19841
+执行杀掉
+sudo kill -9 17907
+执行杀掉
+sudo kill -9 20855
+执行杀掉
+sudo kill -9 17599
+执行杀掉
+sudo kill -9 1541
+执行杀掉kill: (1541): No such process
+
+sudo kill -9 16988
+执行杀掉kill: (16988): No such process
+
+sudo kill -9 11823
+执行杀掉kill: (11823): No such process
+
+超时
+移动日志
+重启命令发送
+程序退出

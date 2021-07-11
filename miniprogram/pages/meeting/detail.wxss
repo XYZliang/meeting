@@ -1,7 +1,8 @@
 /* pages/meeting/detail.wxss */
-.attendees_detail view{
+.attendees_detail view {
   float: none;
 }
-.attendees_info view{
+
+.attendees_info view {
   float: left;
 }

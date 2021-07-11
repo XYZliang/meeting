@@ -4,7 +4,7 @@ from __future__ import absolute_import, unicode_literals
 import datetime
 import json
 
-from cool.views import ViewSite, CoolAPIException, ErrorCode, mixins
+from cool.views import ViewSite, CoolAPIException, ErrorCode
 from cool.views.fields import SplitCharField
 from rest_framework import fields
 from constance import config
@@ -36,9 +36,7 @@ class BaseView(UserBaseView):
             'start_time': '开始时间',
             'end_time': '结束时间',
             'start_date': '开始日期',
-            'end_date': '结束日期',
-            'history_start_date': '历史开始日期',
-            'history_end_date': '历史结束日期'
+            'end_date': '结束日期'
         }
 
     @staticmethod
@@ -48,9 +46,7 @@ class BaseView(UserBaseView):
             'start_time': config.RESERVE_START_TIME,
             'end_time': config.RESERVE_END_TIME,
             'start_date': today,
-            'end_date': today + datetime.timedelta(days=config.SELECT_DATE_DAYS),
-            'history_start_date': today - datetime.timedelta(days=config.MAX_HISTORY_DAYS),
-            'history_end_date': today
+            'end_date': today + datetime.timedelta(days=config.SELECT_DATE_DAYS)
         }
 
     def get_context(self, request, *args, **kwargs):
@@ -73,25 +69,33 @@ class Config(BaseView):
 
 
 @site
-class RoomCreate(mixins.AddMixin, BaseView):
-    model = models.Room
+class RoomCreate(BaseView):
+    name = "创建会议室"
     response_info_serializer_class = serializer.RoomSerializer
-    add_fields = ['name', 'description', 'create_user_manager']
 
-    def init_fields(self, request, obj):
-        obj.create_user_id = request.user.pk
-        super().init_fields(request, obj)
-
-    def save_obj(self, request, obj):
-        super().save_obj(request, obj)
+    def get_context(self, request, *args, **kwargs):
+        room = models.Room.objects.create(
+            name=request.params.name,
+            description=request.params.description,
+            create_user_id=request.user.pk,
+            create_user_manager=request.params.create_user_manager
+        )
         try:
-            obj.qr_code = biz.get_wxa_code_unlimited_file(
-                "room_%d.jpg" % obj.pk, scene="room_id=%d" % obj.pk, page="pages/room/detail"
+            room.qr_code = biz.get_wxa_code_unlimited_file(
+                "room_%d.jpg" % room.pk, scene="room_id=%d" % room.pk, page="pages/room/detail"
             )
-            obj.save(update_fields=['qr_code', ], force_update=True)
+            room.save(update_fields=['qr_code', ], force_update=True)
         except Exception:
             utils.exception_logging.exception("get_wxa_code_unlimited_file", extra={'request': request})
-        self.get_room_follow(obj.pk, request.user.pk)
+        self.get_room_follow(room.pk, request.user.pk)
+        return room
+
+    class Meta:
+        param_fields = (
+            ('name', fields.CharField(label='名称', max_length=64)),
+            ('description', fields.CharField(label='描述', max_length=255)),
+            ('create_user_manager', fields.BooleanField(label='创建人管理权限', required=False, default=False)),
+        )
 
 
 class RoomBase(BaseView):
@@ -136,8 +140,8 @@ class RoomEdit(RoomBase):
     class Meta:
         param_fields = (
             ('name', fields.CharField(label='名称', max_length=64)),
-            ('description', fields.CharField(label='描述', max_length=255, allow_blank=True, default="")),
-            ('create_user_manager', fields.NullBooleanField(label='创建人管理权限', default=None)),
+            ('description', fields.CharField(label='描述', max_length=255, required=False, default="")),
+            ('create_user_manager', fields.NullBooleanField(label='创建人管理权限', required=False, default=None)),
         )
 
 
@@ -250,36 +254,7 @@ class RoomMeetings(BaseView):
     class Meta:
         param_fields = (
             ('room_ids', SplitCharField(label='会议室ID列表', sep=',', child=fields.IntegerField())),
-            ('date', utils.DateField(label='日期', default=None)),
-        )
-
-
-@site
-class HistoryMeetings(RoomBase):
-    name = "会议室预约历史"
-    check_manager = True
-
-    @classmethod
-    def response_info_data(cls):
-        from cool.views.utils import get_serializer_info
-        ret = cls.response_info_date_time_settings()
-        ret.update({'meetings': get_serializer_info(serializer.MeetingSerializer(), True)})
-        return ret
-
-    def get_context(self, request, *args, **kwargs):
-        meetings = models.Meeting.objects.filter(
-            room_id=self.room.pk,
-            date__gte=request.params.start_date,
-            date__lte=request.params.end_date
-        ).order_by('date', 'start_time')
-        ret = self.get_date_time_settings()
-        ret.update({'meetings': serializer.MeetingSerializer(meetings, request=request, many=True).data})
-        return ret
-
-    class Meta:
-        param_fields = (
-            ('start_date', utils.DateField(label='开始日期')),
-            ('end_date', utils.DateField(label='结束日期')),
+            ('date', utils.DateField(label='日期', required=False, default=None)),
         )
 
 
@@ -316,7 +291,7 @@ class MyMeetings(BaseView):
 
     class Meta:
         param_fields = (
-            ('date', utils.DateField(label='日期', default=None)),
+            ('date', utils.DateField(label='日期', required=False, default=None)),
         )
 
 
@@ -327,7 +302,7 @@ class Reserve(BaseView):
 
     @staticmethod
     def time_ok(t):
-        return t.second == 0 and t.microsecond == 0 and t.minute in (0, 30)
+        return t.second == 0 and t.microsecond == 0
 
     def get_context(self, request, *args, **kwargs):
         if request.params.start_time >= request.params.end_time:
@@ -366,7 +341,7 @@ class Reserve(BaseView):
         param_fields = (
             ('room_id', fields.IntegerField(label='会议室ID')),
             ('name', fields.CharField(label='名称', max_length=64)),
-            ('description', fields.CharField(label='描述', max_length=255, allow_blank=True, default="")),
+            ('description', fields.CharField(label='描述', max_length=255, required=False, default="")),
             ('date', fields.DateField(label='预定日期')),
             ('start_time', fields.TimeField(label='开始时间')),
             ('end_time', fields.TimeField(label='结束时间')),
@@ -375,7 +350,6 @@ class Reserve(BaseView):
 
 class MeetingBase(BaseView):
     check_manager = False
-    check_meeting_time = True
     response_info_serializer_class = serializer.MeetingDetailSerializer
 
     def check_api_permissions(self, request, *args, **kwargs):
@@ -389,9 +363,6 @@ class MeetingBase(BaseView):
                     not meeting.room.create_user_manager or request.user.pk != meeting.room.create_user_id
             ):
                 raise CoolAPIException(ErrorCode.ERROR_PERMISSION)
-        if self.check_meeting_time:
-            if datetime.datetime.combine(meeting.date, meeting.end_time) < datetime.datetime.now():
-                raise CoolAPIException(ErrorCode.ERR_MEETING_FINISHED)
 
     def get_context(self, request, *args, **kwargs):
         raise NotImplementedError
@@ -406,7 +377,6 @@ class MeetingBase(BaseView):
 @site
 class Info(MeetingBase):
     name = "会议详情"
-    check_meeting_time = False
 
     def get_context(self, request, *args, **kwargs):
         return self.meeting
@@ -443,7 +413,7 @@ class Edit(MeetingBase):
     class Meta:
         param_fields = (
             ('name', fields.CharField(label='名称', max_length=64)),
-            ('description', fields.CharField(label='描述', max_length=255, allow_blank=True, default="")),
+            ('description', fields.CharField(label='描述', max_length=255, required=False, default="")),
         )
 
 

@@ -11,14 +11,20 @@ Page({
     show_home: false,
     owner: false,
     info: {},
-    meetings: [],
+    meetings: []
   },
   refresh: function () {
 
-    app.api.api_meeting_room_info({ room_id: this.data.room_id }).then(res => {
-      this.setData({ info: res })
+    app.api.api_meeting_room_info({
+      room_id: this.data.room_id
+    }).then(res => {
+      this.setData({
+        info: res
+      })
       app.userInfo().then(res => {
-        this.setData({ owner: res.id == this.data.info.create_user })
+        this.setData({
+          owner: res.id == this.data.info.create_user
+        })
       })
     })
     app.api.api_meeting_room_meetings({
@@ -27,9 +33,7 @@ Page({
     }).then(res => {
       this.selectComponent("#date_select").setDateRange(res.start_date, res.end_date)
       this.setData({
-        meetings: res.meetings,
-        history_limit_start: res.history_start_date,
-        history_limit_end: res.history_end_date
+        meetings: res.meetings
       })
     })
   },
@@ -38,55 +42,60 @@ Page({
       show_qr_code: false
     })
   },
-  show_qrcode: function(){
+  show_qrcode: function () {
     this.setData({
-      show_qr_code:true
+      show_qr_code: true
     })
     // wx.previewImage({
     //   current: this.data.info.qr_code,
     //   urls: [this.data.info.qr_code]
     // })
   },
-  home: function(){
+  home: function () {
     app.gotoHome()
   },
   date_select_change: function (e) {
     this.refresh()
   },
-  reserve: function(){
+  reserve: function () {
     wx.navigateTo({
       url: '../meeting/reserve?room_ids=' + this.data.room_id + "&date=" + this.selectComponent("#date_select").data.select_date
     })
   },
-  history: function(){
-    wx.navigateTo({
-      url: '../room/history?room_id=' + this.data.room_id
-    })
-  },
-  unfollow: function(){
-    app.api.api_meeting_room_un_follow({ room_id: this.data.room_id}).then(res => {
+  unfollow: function () {
+    app.api.api_meeting_room_un_follow({
+      room_id: this.data.room_id
+    }).then(res => {
       this.data.info.is_follow = false
-      this.setData({info: this.data.info})
+      this.setData({
+        info: this.data.info
+      })
     })
   },
-  follow: function(){
-    app.api.api_meeting_room_follow({ room_id: this.data.room_id }).then(res => {
+  follow: function () {
+    app.api.api_meeting_room_follow({
+      room_id: this.data.room_id
+    }).then(res => {
       this.data.info.is_follow = true
-      this.setData({ info: this.data.info })
+      this.setData({
+        info: this.data.info
+      })
     })
   },
-  edit: function(){
+  edit: function () {
     wx.navigateTo({
       url: 'edit?room_id=' + this.data.room_id
     })
   },
-  del: function() {
+  del: function () {
     wx.showModal({
       title: '提示',
       content: '确定要删除吗？',
       success: sm => {
         if (sm.confirm) {
-          app.api.api_meeting_room_delete({ room_id: this.data.room_id }).then(res => {
+          app.api.api_meeting_room_delete({
+            room_id: this.data.room_id
+          }).then(res => {
             wx.navigateBack()
           })
         }
@@ -98,46 +107,36 @@ Page({
       url: '../meeting/detail?meeting_id=' + e.currentTarget.id
     })
   },
-  formatNumber: function(n) {
-    n = n.toString()
-    return n[1] ? n : '0' + n
-  },
-  dateId: function(date){
-    const year = date.getFullYear()
-    const month = date.getMonth() + 1
-    const day = date.getDate()
-    return [year, month, day].map(this.formatNumber).join('-')
-  },
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    let now = app.nowDate()
     this.setData({
-      show_home: getCurrentPages().length == 1,
-      history_end: this.dateId(now),
-      history_start: this.dateId(new Date(now.setDate(now.getDate() - 7)))
-
+      show_home: getCurrentPages().length == 1
     })
     const scene = decodeURIComponent(options.scene)
     let room_id = ''
     scene.split("&").map(s => {
-      if(s.substring(0, s.indexOf("=")) == "room_id"){
+      if (s.substring(0, s.indexOf("=")) == "room_id") {
         room_id = s.substring(s.indexOf("=") + 1, s.length)
       }
     })
     let from_scene = false
-    if(room_id){
+    if (room_id) {
       from_scene = true
-    }else{
+    } else {
       room_id = options.room_id
     }
-    if(options.date){
-      this.selectComponent("#date_select").setData({ select_date: options.date })
+    if (options.date) {
+      this.selectComponent("#date_select").setData({
+        select_date: options.date
+      })
     }
     if (room_id) {
-      this.setData({ room_id: parseInt(room_id) })
-      if(from_scene){
+      this.setData({
+        room_id: parseInt(room_id)
+      })
+      if (from_scene) {
         this.follow()
       }
     }

@@ -59,6 +59,8 @@ INSTALLED_APPS = [
     'cool',
     'apps.wechat',
     'apps.meetings',
+	'werkzeug_debugger_runserver',
+	'django_extensions',
 ]
 
 MIDDLEWARE = [
@@ -360,7 +362,6 @@ DJANGO_COOL = {
     'API_WS_REQ_ID_NAME': 'reqid',
     'API_EXCEPTION_DEFAULT_STATUS_CODE': 200,
     'API_PARAM_ERROR_STATUS_CODE': 200,
-    'API_SYSTEM_ERROR_STATUS_CODE': 200,
 
     'API_ERROR_CODES': (
         ('ERR_WECHAT_LOGIN', (10001, '需要登录')),
@@ -368,8 +369,6 @@ DJANGO_COOL = {
         ('ERR_MEETING_ROOM_TIMEOVER', (20001, '时间已过')),
         ('ERR_MEETING_ROOM_INUSE', (20002, '时间冲突')),
         ('ERR_MEETING_ROOM_NOT_FOUND', (20003, '会议室未找到')),
-        ('ERR_MEETING_NOT_FOUND', (20004, '会议未找到')),
-        ('ERR_MEETING_FINISHED', (20005, '会议已结束')),
-
+        ('ERR_MEETING_NOT_FOUND', (20004, '会议室未找到')),
     )
 }
