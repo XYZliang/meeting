@@ -1,11 +1,3 @@
-/*
- * @Author: your name
- * @Date: 2020-11-20 16:27:42
- * @LastEditTime: 2021-03-16 23:20:29
- * @LastEditors: your name
- * @Description: In User Settings Edit
- * @FilePath: /miniprogram/components/date_select.js
- */
 // components/date_select.js
 const weekStr = ['周日', '周一', '周二', '周三', '周四', '周五', '周六']
 const app = getApp()

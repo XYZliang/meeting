@@ -12,7 +12,7 @@
 		 bindtitle_label_click="title_label_click"
 		 bindtitle_click="title_click"
 		 binddata_click="data_click"
-		 no_title_desc="请先添加会议室"
+		 no_title_desc="请先添加教室"
 		 title_label="时间"
 		/>
 	</view>

@@ -1,21 +1,26 @@
 "use strict";
 // pages/room/list.js
 const app = getApp()
-Page({
 
+Page({
   /**
    * 页面的初始数据
    */
   data: {
     tags: ["关注", "创建", ""],
-    tabs: ["预约列表"],
+    tabs: ["教室列表"],
     activeIndex: 0,
     rooms: [null, null, null],
-    shareSelect: []
+    shareSelect: [],
+    hideNotice: false,
+    notice: '【优化】修复若干问题🔨，优化体验和性能~现在快到起飞啦🚀~~     【功能】增加了分享💋和公告🪧提醒功能～     【反馈】如有疑问🙋请联系开发者🐧QQ 1424625705',
+  },
+  switchNotice: function() {
+    this.setData({
+      hideNotice: true
+    })
   },
   refreshShareRooms: function () {
-    app.api.api_meeting_create_rooms().then(res => {
-      this.data.rooms[1] = res
       app.api.api_meeting_follow_rooms().then(res => {
         this.data.rooms[0] = res
         this.data.rooms[2] = []
@@ -31,7 +36,7 @@ Page({
         }
         let setdata = {
           rooms: this.data.rooms,
-          tabs: ["预约列表"]
+          tabs: ["教室列表"]
         }
         if (this.data.rooms[2].length > 1) {
           setdata.tabs.push("批量分享")
@@ -40,7 +45,6 @@ Page({
         }
         this.setData(setdata)
       })
-    })
   },
   refresh: function () {
     this.refreshShareRooms()

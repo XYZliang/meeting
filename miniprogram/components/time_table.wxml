@@ -44,8 +44,9 @@
 				>
 					{{td_data[title.id][label.id].text}}
 				</view>
-				<view class="td" wx:if='{{titles.length == 0}}' />
+        <view class="td" wx:if='{{titles.length == 0}}'>
 			</view>
+      </view>
 		</scroll-view>
 	</view>
 </view>

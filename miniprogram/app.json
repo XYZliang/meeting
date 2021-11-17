@@ -6,12 +6,13 @@
     "pages/meeting/reserve",
     "pages/meeting/detail",
     "pages/meeting/edit",
-    "pages/meeting/my"
+    "pages/meeting/my",
+    "pages/room/history"
   ],
   "window": {
     "backgroundTextStyle": "light",
     "navigationBarBackgroundColor": "#fff",
-    "navigationBarTitleText": "会议室",
+    "navigationBarTitleText": "报告厅",
     "navigationBarTextStyle": "black"
   },
   "sitemapLocation": "sitemap.json"

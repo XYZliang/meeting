@@ -1,6 +1,6 @@
 "use strict";
 const request = require('./request');
-const server = 'https://order.jxufesoftware.club:8000';
+const server = '你的接口';
 
 const ERROR_CODE = {
   SUCCESS: 0, // 返回成功
@@ -235,6 +235,28 @@ const api_meeting_room_meetings = function ({
 }
 
 
+// 会议室预约历史
+const api_meeting_history_meetings = function ({
+  room_id, // 会议室ID
+  start_date, // 开始日期
+  end_date // 结束日期
+} = {}) {
+  return request({
+    server: server,
+    path: '/api/meeting/history/meetings',
+    method: 'GET',
+    data: {
+      room_id: room_id,
+      start_date: start_date,
+      end_date: end_date
+    },
+    header: {
+      'Content-Type': 'application/x-www-form-urlencoded'
+    }
+  })
+}
+
+
 // 我参与的会议列表
 const api_meeting_my_meetings = function ({
   date // 日期
@@ -389,6 +411,7 @@ module.exports = {
   api_meeting_follow_rooms: api_meeting_follow_rooms,
   api_meeting_create_rooms: api_meeting_create_rooms,
   api_meeting_room_meetings: api_meeting_room_meetings,
+  api_meeting_history_meetings: api_meeting_history_meetings,
   api_meeting_my_meetings: api_meeting_my_meetings,
   api_meeting_reserve: api_meeting_reserve,
   api_meeting_info: api_meeting_info,

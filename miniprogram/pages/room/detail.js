@@ -13,6 +13,7 @@ Page({
     info: {},
     meetings: []
   },
+  
   refresh: function () {
 
     app.api.api_meeting_room_info({
@@ -33,7 +34,9 @@ Page({
     }).then(res => {
       this.selectComponent("#date_select").setDateRange(res.start_date, res.end_date)
       this.setData({
-        meetings: res.meetings
+        meetings: res.meetings,
+        history_limit_start: res.history_start_date,
+        history_limit_end: res.history_end_date
       })
     })
   },
@@ -60,6 +63,11 @@ Page({
   reserve: function () {
     wx.navigateTo({
       url: '../meeting/reserve?room_ids=' + this.data.room_id + "&date=" + this.selectComponent("#date_select").data.select_date
+    })
+  },
+  history: function () {
+    wx.navigateTo({
+      url: '../room/history?room_id=' + this.data.room_id
     })
   },
   unfollow: function () {
@@ -107,12 +115,26 @@ Page({
       url: '../meeting/detail?meeting_id=' + e.currentTarget.id
     })
   },
+  formatNumber: function (n) {
+    n = n.toString()
+    return n[1] ? n : '0' + n
+  },
+  dateId: function (date) {
+    const year = date.getFullYear()
+    const month = date.getMonth() + 1
+    const day = date.getDate()
+    return [year, month, day].map(this.formatNumber).join('-')
+  },
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    let now = app.nowDate()
     this.setData({
-      show_home: getCurrentPages().length == 1
+      show_home: getCurrentPages().length == 1,
+      history_end: this.dateId(now),
+      history_start: this.dateId(new Date(now.setDate(now.getDate() - 7)))
+
     })
     const scene = decodeURIComponent(options.scene)
     let room_id = ''
@@ -188,7 +210,7 @@ Page({
    * 用户点击右上角分享
    */
   onShareAppMessage: function () {
-    let title = '会议室'
+    let title = '报告厅'
     if (this.data.info.name) {
       title += " - " + this.data.info.name
     }

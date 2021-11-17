@@ -1,7 +1,6 @@
-/* components/time_table.wxss */
-
 
 .time_table {
+  -webkit-overflow-scrolling: touch;
   height: 100%;
 }
 

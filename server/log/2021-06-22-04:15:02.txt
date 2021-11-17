@@ -1,8 +1,0 @@
-21/06/22 04:10:59 1894.139953656485696 DEBUG utils.debug_sql (0.006) SELECT @@SQL_AUTO_IS_NULL; args=None
-21/06/22 04:10:59 1894.139953656485696 DEBUG utils.debug_sql (0.000) SET SESSION TRANSACTION ISOLATION LEVEL READ COMMITTED; args=None
-21/06/22 04:10:59 1894.139953656485696 DEBUG utils.debug_sql (0.007) SHOW FULL TABLES; args=None
-21/06/22 04:10:59 1894.139953656485696 DEBUG utils.debug_sql (0.006) SELECT `django_migrations`.`id`, `django_migrations`.`app`, `django_migrations`.`name`, `django_migrations`.`applied` FROM `django_migrations`; args=()
-21/06/22 04:11:02 2229.140491017529152 DEBUG utils.debug_sql (0.000) SELECT @@SQL_AUTO_IS_NULL; args=None
-21/06/22 04:11:02 2229.140491017529152 DEBUG utils.debug_sql (0.000) SET SESSION TRANSACTION ISOLATION LEVEL READ COMMITTED; args=None
-21/06/22 04:11:02 2229.140491017529152 DEBUG utils.debug_sql (0.001) SHOW FULL TABLES; args=None
-21/06/22 04:11:02 2229.140491017529152 DEBUG utils.debug_sql (0.001) SELECT `django_migrations`.`id`, `django_migrations`.`app`, `django_migrations`.`name`, `django_migrations`.`applied` FROM `django_migrations`; args=()

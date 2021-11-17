@@ -60,7 +60,7 @@ const ApiViewWS = function (ws_path, common_listener) {
   this._new_task = () => {
     this.showLoading = true
     wx.showLoading({
-      title: '加载中',
+      title: '正在加载~',
     })
     let header = {
       'Cookie': httpCookie.getCookieForReq()
@@ -74,7 +74,6 @@ const ApiViewWS = function (ws_path, common_listener) {
       method: "GET",
       success: res => {},
       fail: res => {
-        console.log("ws connectSocket fail", res)
         this._connects_callback(1, "网络错误")
         if (this.showLoading) {
           this.showLoading = false
@@ -83,7 +82,6 @@ const ApiViewWS = function (ws_path, common_listener) {
       }
     })
     this.task.onClose(res => {
-      console.log("ws onClose", res)
       this._failall()
       if (this.task_status === TASK_STATUS.RECONNECTING) {
         //this._new_task()
@@ -93,7 +91,6 @@ const ApiViewWS = function (ws_path, common_listener) {
       }
     })
     this.task.onError(res => {
-      console.log("ws onError", res)
       this.task_status = TASK_STATUS.ERROR
       if (this.showLoading) {
         this.showLoading = false
@@ -103,13 +100,7 @@ const ApiViewWS = function (ws_path, common_listener) {
       this._connects_callback(1, "网络错误")
     })
     this.task.onMessage(res => {
-      let data = JSON.parse(res.data)
-      if (data && data.status_code && data.reqid) {
-        console.log("ws onMessage", data.reqid, data.status_code, data.data && data.data.code)
-      } else {
-        console.log("ws onMessage", res)
-      }
-      this._proc_data(data)
+      this._proc_data(JSON.parse(res.data))
     })
     this.task.onOpen(res => {
       this.task_status = TASK_STATUS.OK
@@ -122,7 +113,6 @@ const ApiViewWS = function (ws_path, common_listener) {
   }
   this.connect = () => {
     return new Promise((resolve, reject) => {
-      //console.log("connect", this.task_status, this.task)
       if (this.task_status === TASK_STATUS.OK) {
         if (this.task.readyState === 1) {
           resolve(this)
@@ -171,12 +161,10 @@ const ApiViewWS = function (ws_path, common_listener) {
       reqid: reqid,
       data: data
     }
-    console.log("ws send", reqid, path)
     this.task.send({
       data: JSON.stringify(req_data),
       success: res => {},
       fail: res => {
-        console.log("ws send fail", reqid, path)
         listener(false, {})
       }
     })

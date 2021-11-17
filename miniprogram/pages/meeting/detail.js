@@ -159,7 +159,7 @@ Page({
    * 用户点击右上角分享
    */
   onShareAppMessage: function () {
-    let title = '会议'
+    let title = '报告厅预约详情'
     if (this.data.info.name) {
       title += " - " + this.data.info.name
     }

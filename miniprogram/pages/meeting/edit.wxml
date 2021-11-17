@@ -1,13 +1,17 @@
 <wxs module="timeUtils" src="../../utils/timeUtils.wxs" />
 <!--pages/meeting/edit.wxml-->
 <view class="page">
+	<view class='notice-wrap' hidden='{{hideNotice}}'>
+				<view class='tongzhitext'><text class="tongzhi-text">{{notice}}</text></view>
+				<view bindtap='switchNotice' class="closeView">x</view>
+	</view>
 	<view class="page_bd page__bd_spacing weui-cells weui-cells_after-title">
 		<view class="weui-cell weui-cell_input">
 			<view class="weui-cell__hd">
-				<view class="weui-label">用途</view>
+				<view class="weui-label edit">教室用途</view>
 			</view>
 			<view class="weui-cell__bd">
-				<input
+				<input   adjust-position="{{ false }}" 
 				 class="weui-input"
 				 placeholder="班级/部门 + 事项"
 				 value="{{name}}"
@@ -18,7 +22,7 @@
 		</view>
 		<view class="weui-cell weui-cell_input">
 			<view class="weui-cell__hd">
-				<view class="weui-label">联系方式</view>
+				<view class="weui-label edit">联系方式</view>
 			</view>
 			<view class="weui-cell__bd">
 				<input
@@ -32,11 +36,11 @@
 		</view>
 		<view class="weui-cells weui-cells_after-title">
 			<view class="weui-cell">
-				<view class="weui-cell__bd">教室</view>
+				<view class="weui-cell__bd">预约教室</view>
 				<view class="weui-cell__ft">{{room.name}}</view>
 			</view>
 			<view class="weui-cell">
-				<view class="weui-cell__bd">时间</view>
+				<view class="weui-cell__bd">预约时间</view>
 				<view class="weui-cell__ft">{{date}} {{timeUtils.formatTime(start_time)}} - {{timeUtils.formatTime(end_time)}}</view>
 			</view>
 		</view>

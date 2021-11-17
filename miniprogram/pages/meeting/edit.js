@@ -15,7 +15,14 @@ Page({
     end_time: "",
     room: {},
     name: "",
-    description: ""
+    description: "",
+    hideNotice: false,
+    notice: '⚠️借用仅限软件学院班级、部门活动，非本学院活动申请请先向学院团委廖波老师/学生会主席赖粤恺/第一副主席叶怡麟申请。请按照要求填写相关信息，教室用途需包含具体班级/部门和相关事项，例如👉“软件192班班会”；联系方式应包含负责人/借用人相关联系方式📱，例如👉“张三 18700001234”。'
+  },
+  witchNotice: function () {
+    this.setData({
+      hideNotice: true
+    })
   },
   bindKeyInput(e) {
     this.data[e.currentTarget.dataset.obj] = e.detail.value
@@ -52,6 +59,13 @@ Page({
     }
   },
   save: function () {
+    if (!this.data.name.trim()) {
+      wx.showToast({
+        icon: 'none',
+        title: '请输入名称',
+      })
+      return
+    }
     wx.showLoading({
       mask: true,
       title: '加载中...',

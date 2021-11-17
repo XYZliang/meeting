@@ -1,61 +1,72 @@
-# 开源会议室
+---
+typora-root-url: ./resource
+---
 
-开源会议室预约小程序+Django服务端后台
+江西财经大学软件与物联网工程学院报告厅预约登记小程序（[原项目：开源会议室](https://github.com/007gzs/meeting)）
+
+报告厅预约小程序+Django服务端后台，修改自[原项目](https://github.com/007gzs/meeting)，以适应学院需要。
 
 ## 扫码体验
 
-![开源会议室](https://raw.githubusercontent.com/007gzs/meeting/master/resource/room_demo.jpg "开源会议室")
+![使用手册](/../使用手册.png)
 
 
 ## 安装方式
 
-本项目在以下代码托管网站同步更新:
-* 码云：https://gitee.com/007gzs/meeting
-* GitHub：https://github.com/007gzs/meeting
+详见[原项目介绍](https://github.com/007gzs/meeting)
 
-### 获取代码
+## 更新日志
 
-    git clone https://github.com/007gzs/meeting.git
+### V1.0 2020年12月
 
-### 服务端配置
+初始版本，修改原项目以适应学院需要，部署在腾讯云轻量应用服务器（2核4G5M）：
 
+固定仅一个教室，默认所有用户都有这个教室（数据库中设定触发器，当有新用户时自动绑定教室，即关注）
 
-服务端使用[Django](https://github.com/django/django) + [django-rest-framework](https://github.com/encode/django-rest-framework) + [django-cool](https://github.com/007gzs/django-cool) 框架开发
+修改时间间隔为5分钟
 
-#### 创建数据库
+删除参与者功能
 
-    CREATE SCHEMA `meeting` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci ;
+添加预约描述
 
-#### 初始化数据
-将 `server/meeting/local_settings.py.default` 重命名为 `server/meeting/local_settings.py` 并修改其中相关信息
-在`server`目录中执行(推荐使用虚拟python虚拟环境)
+删除分享、二维码功能（二维码功能一直失效）
 
-    # 安装依赖
-    pip install -r requirements.txt
-    # 初始化数据库
-    python manage.py makemigrations
-    python manage.py migrate
-    # 创建管理员用户
-    python manage.py createsuperuser
-    # 启动服务
-    python manage.py runserver 0.0.0.0:8000
+删除创建教室入口
 
-#### 后台管理地址
+### V2.0 2021年11月10日
 
-    http://127.0.0.1:8000/sysadmin
-可以用上面创建的管理员账号登录查看
+服务器迁移至校内服务器（8核16G200M）
 
+关闭websocket连接功能（原来应该是用来测试连接的，由于现在网络速度和服务器处理速度已经非常可观，不需要显示加载中了）
 
-### 小程序配置
-+ 将`miniprogram/utils/api.js`文件中`const server = 'http://10.100.0.7:8000'` 修改为本机内网IP
-+ 将`miniprogram/project.config.json`中`appid`修改为自己的appid
-+ 用微信web开发者工具打开`miniprogram`并编译
+平均接口响应速度从400ms降到80ms
 
-## 软件截图
+同步更新原项目代码
 
-![会议室列表](https://raw.githubusercontent.com/007gzs/meeting/master/resource/1.jpg "会议室列表")
-![会议预约](https://raw.githubusercontent.com/007gzs/meeting/master/resource/2.png "会议预约")
-![会议列表](https://raw.githubusercontent.com/007gzs/meeting/master/resource/3.jpg "会议列表")
-![会议明细](https://raw.githubusercontent.com/007gzs/meeting/master/resource/4.jpg "会议明细")
-![会议室二维码](https://raw.githubusercontent.com/007gzs/meeting/master/resource/5.jpg "会议室二维码")
-![我的会议](https://raw.githubusercontent.com/007gzs/meeting/master/resource/6.png "我的会议")
+### V2.0.1 2021年11月11日
+
+开放分享功能
+
+### V2.0.2 2021年11月12日
+
+增加公告提醒功能
+
+### V2.0.3 2021年11月13日
+
+修改部分文案，新小程序正式上线
+
+### V2.0.4-2.0.6 2021年11月15日
+
+修复bug，删除一个不必要请求的api（每次打开都会请求创建教室接口，删除之），减少60ms左右的打开响应时间
+
+删除预约界面发起人，因原微信接口变动，无法获取发起人微信头像和昵称
+
+项目上传至GitHub
+
+## 正在路上
+
+- [ ] 适配黑暗模式
+- [ ] 更换新UI
+- [ ] 修复授权，获取发起人头像和昵称
+- [x] 连接速度进一步优化
+

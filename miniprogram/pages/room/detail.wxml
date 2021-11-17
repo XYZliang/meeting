@@ -1,4 +1,4 @@
-<wxs module="timeUtils" src="../../utils/timeUtils.wxs" />
+<wxs module="timeUtils" src="../../utils/timeUtils.wxs"></wxs>
 <!--pages/room/detail.wxml-->
 <view class="page">
 	<view class="page__hd">
@@ -7,9 +7,10 @@
 				<view class="page__title">{{info.name}}</view>
 				<view class="page__desc">{{info.description}}</view>
 			</view>
-			<view class="weui-cell__ft" wx:if="{{show_home}}">
-				<button class="weui-btn" size="default" bindtap='home'>返回首页</button>
-			</view>
+			<view class="weui-cell__ft">
+        <button class="weui-btn" size="mini" bindtap='history' wx:if="{{owner}}">查看历史</button>
+        <button class="weui-btn" size="mini" bindtap='home' style="margin-left:10rpx" wx:if="{{show_home}}">返回首页</button>
+      </view>
 		</view>
 	</view>
 
@@ -38,7 +39,7 @@
 			</block>
 		</view>
 		<view wx:elif="{{meetings.length == '0'}}" class="No_appointment">
-			这一天还没有预约哦～
+			这一天还没有人预约哦～
 		</view>
 		<view wx:else class="No_appointment">
 			正在加载～稍等一下～
@@ -53,26 +54,22 @@
 			<view class="weui-flex__item">
 				<button size="default" bindtap='reserve'>预约</button>
 			</view>
-			<!--
-      <view class="weui-flex__item">
+      <!-- <view class="weui-flex__item">
         <button size="mini" bindtap='unfollow' wx:if="{{info.is_follow}}">取消关注</button>
         <button size="mini" bindtap='follow' wx:else>关注</button>
       </view>
-      -->
-			<block wx:if="{{owner}}">
-				<view class="weui-flex__item">
-					<button size="default" bindtap='edit'>修改</button>
-				</view>
-			</block>
-		</view>
-	</view>
-
-</view>
-<!---
-<modal class="modal" hidden="{{!show_qr_code}}" no-cancel bindconfirm="hide_qrcode" confirmText="确定" title="{{info.name}} 专属二维码">
-  <view class="dew">  
-    <image class="qr_code" src="{{info.qr_code}}" mode="aspectFit" show-menu-by-longpress></image>
-    <view class="vedw">长按二维码可保存到相册</view>   
+      <view class="weui-flex__item" vx:if="{{info.qr_code}}">
+        <button size="mini" bindtap='show_qrcode'>二维码</button>
+      </view> -->
+      <block wx:if="{{owner}}">
+        <view class="weui-flex__item">
+          <button size="mini" bindtap='edit'>修改</button>
+        </view>
+        <view class="weui-flex__item">
+          <button size="mini" bindtap='del'>删除</button>
+        </view>
+      </block>
+    </view>
   </view>
-</modal>-->
-
+  
+</view>
