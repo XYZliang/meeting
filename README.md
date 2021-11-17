@@ -1,14 +1,10 @@
----
-typora-root-url: ./resource
----
-
 江西财经大学软件与物联网工程学院报告厅预约登记小程序（[原项目：开源会议室](https://github.com/007gzs/meeting)）
 
 报告厅预约小程序+Django服务端后台，修改自[原项目](https://github.com/007gzs/meeting)，以适应学院需要。
 
 ## 扫码体验
 
-![使用手册](/../使用手册.png)
+![使用手册](./使用手册.png)
 
 
 ## 安装方式
